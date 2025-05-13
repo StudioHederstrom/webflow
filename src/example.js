@@ -1,4 +1,4 @@
-console.log("Mitt script laddades!");
+console.log("Mitt script laddades! v2");
 
 // ─────────────────────────────
 // Hjälpfunktioner
