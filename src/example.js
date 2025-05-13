@@ -107,6 +107,7 @@ async function caseToIndexTransition(data) {
   data.next.container.style.zIndex = 0;
   data.next.container.style.position = "relative";
   data.next.container.style.opacity = 1;
+  data.next.container.style.visibility = "visible";
   data.current.container.style.zIndex = 1;
   data.current.container.style.position = "relative";
 
