@@ -1,3 +1,5 @@
+console.log("Mitt script laddades!");
+
 // ─────────────────────────────
 // Hjälpfunktioner
 // ─────────────────────────────
