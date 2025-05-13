@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v7");
+console.log("Mitt script laddades! v8");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -105,43 +105,33 @@ async function indexToCaseTransition(data) {
 let indexClone = null;
 
 async function caseToIndexTransition(data) {
-  // Scrolla till toppen för att trigga addressbar på mobil
-  window.scrollTo(0, 0);
-
-  // Klona index-container och lägg bakom case
-  indexClone = data.next.container.cloneNode(true);
-  Object.assign(indexClone.style, {
+  // 1. Frys case-sidan i viewporten
+  const scrollY = window.scrollY || document.documentElement.scrollTop;
+  Object.assign(data.current.container.style, {
     position: "fixed",
-    top: 0,
+    top: `-${scrollY}px`,
     left: 0,
     width: "100vw",
-    height: "100vh",
-    zIndex: 0,
-    overflow: "hidden",
-    pointerEvents: "none"
-  });
-  document.body.appendChild(indexClone);
-
-  // Sätt case ovanpå
-  Object.assign(data.current.container.style, {
-    position: "relative",
-    zIndex: 1
+    zIndex: 1,
+    background: "#fff"
   });
 
-  // Vänta två animation frames så att DOM hinner uppdateras
-  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  // 1b. Trigga addressbar (pixelbump)
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    window.scrollTo(0, window.scrollY - 1);
+  }
 
-  // Fade ut case
+  // 2. Fade ut case-sidan (ingen index bakom)
   await gsap.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
 
-  // Återställ stilar
+  // 3. Återställ stilar (Barba tar bort container efteråt)
   Object.assign(data.current.container.style, {
     position: "",
-    zIndex: ""
-  });
-  Object.assign(data.next.container.style, {
-    position: "",
-    zIndex: ""
+    top: "",
+    left: "",
+    width: "",
+    zIndex: "",
+    background: ""
   });
 }
 
@@ -176,6 +166,10 @@ function initTransitions() {
           await caseToIndexTransition(data);
         },
         enter(data) {
+          // 3. Animera in case-cards från botten
+          const cards = data.next.container.querySelectorAll('.case-card');
+          gsap.set(cards, { y: '100vh', opacity: 0 });
+          gsap.to(cards, { y: 0, opacity: 1, duration: 0.7, stagger: 0.07 });
           gsap.to(data.next.container, {
             autoAlpha: 1,
             duration: 0.3,
@@ -183,13 +177,6 @@ function initTransitions() {
           });
           window.scrollTo(0, 0);
         },
-        afterEnter() {
-          // Ta bort index-klonen när Barba är klar
-          if (indexClone) {
-            indexClone.remove();
-            indexClone = null;
-          }
-        }
       },
     ],
   });
