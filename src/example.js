@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v9");
+console.log("Mitt script laddades! v10");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -165,11 +165,6 @@ function initTransitions() {
         async leave(data) {
           await caseToIndexTransition(data);
         },
-        beforeEnter(data) {
-          // Sätt startposition på case-cards innan index visas
-          const cards = data.next.container.querySelectorAll('.case-card');
-          gsap.set(cards, { y: '100vh', opacity: 0 });
-        },
         enter(data) {
           // Animera in case-cards från botten
           const cards = data.next.container.querySelectorAll('.case-card');
@@ -183,6 +178,14 @@ function initTransitions() {
         },
       },
     ],
+  });
+
+  // Lägg till global beforeEnter-hook för att instant sätta case-cards utanför viewport
+  barba.hooks.beforeEnter((data) => {
+    if (data.next.namespace === 'index') {
+      const cards = data.next.container.querySelectorAll('.case-card');
+      gsap.set(cards, { y: '100vh', opacity: 0 });
+    }
   });
 }
 
