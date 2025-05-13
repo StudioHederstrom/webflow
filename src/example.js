@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v4");
+console.log("Mitt script laddades! v5");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -102,30 +102,27 @@ async function indexToCaseTransition(data) {
 // ─────────────────────────────
 // Transition: case -> index
 // ─────────────────────────────
-let savedCaseScrollY = 0;
-
 async function caseToIndexTransition(data) {
   // Spara scrollposition
-  savedCaseScrollY = window.scrollY || document.documentElement.scrollTop;
+  const savedCaseScrollY = window.scrollY || document.documentElement.scrollTop;
 
-  // Gör index-sidan till ett lager under case
-  Object.assign(data.next.container.style, {
+  // Klona index-container och lägg bakom case
+  const indexClone = data.next.container.cloneNode(true);
+  Object.assign(indexClone.style, {
     position: "fixed",
     top: 0,
     left: 0,
     width: "100vw",
     height: "100vh",
     zIndex: 0,
-    opacity: 1,
-    visibility: "visible"
+    overflow: "hidden",
+    pointerEvents: "none"
   });
-  // Gör case fixed och behåll dess visuella position
+  document.body.appendChild(indexClone);
+
+  // Sätt case ovanpå
   Object.assign(data.current.container.style, {
-    position: "fixed",
-    top: `-${savedCaseScrollY}px`,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
+    position: "relative",
     zIndex: 1
   });
 
@@ -135,23 +132,16 @@ async function caseToIndexTransition(data) {
   // Fade ut case
   await gsap.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
 
-  // Återställ positioner efter transitionen
-  Object.assign(data.next.container.style, {
-    position: "",
-    top: "",
-    left: "",
-    width: "",
-    height: "",
-    zIndex: "",
-    opacity: "",
-    visibility: ""
-  });
+  // Ta bort klonen
+  indexClone.remove();
+
+  // Återställ stilar
   Object.assign(data.current.container.style, {
     position: "",
-    top: "",
-    left: "",
-    width: "",
-    height: "",
+    zIndex: ""
+  });
+  Object.assign(data.next.container.style, {
+    position: "",
     zIndex: ""
   });
 
