@@ -67,12 +67,12 @@ async function indexToCaseTransition(data) {
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
     const sideMargin = rem;
     targetWidth = window.innerWidth - 2 * sideMargin;
-    targetHeight = targetWidth * (4 / 3);
+    targetHeight = targetWidth * (3 / 4);
     targetLeft = sideMargin;
     targetTop = "6rem";
   } else {
     targetHeight = window.innerHeight * 0.7;
-    targetWidth = targetHeight * (3 / 4);
+    targetWidth = targetHeight * (4 / 3);
     targetLeft = (window.innerWidth - targetWidth) / 2;
     targetTop = window.innerHeight * 0.1;
   }
