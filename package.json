@@ -1,0 +1,20 @@
+{
+  "name": "webflow-js",
+  "version": "1.0.0",
+  "description": "JavaScript files for Webflow integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -p 8080",
+    "build": "webpack --mode production",
+    "sandbox": "codesandbox-cli deploy",
+    "sandbox:login": "codesandbox-cli login"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "@codesandbox/cli": "^0.0.1-alpha.5"
+  }
+} 
