@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v5");
+console.log("Mitt script laddades! v6");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -103,6 +103,11 @@ async function indexToCaseTransition(data) {
 // Transition: case -> index
 // ─────────────────────────────
 async function caseToIndexTransition(data) {
+  // Pixelbump för att trigga addressbar på mobil
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    window.scrollTo(0, window.scrollY - 1);
+  }
+
   // Spara scrollposition
   const savedCaseScrollY = window.scrollY || document.documentElement.scrollTop;
 
