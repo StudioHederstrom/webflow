@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v6");
+console.log("Mitt script laddades! v7");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -102,17 +102,14 @@ async function indexToCaseTransition(data) {
 // ─────────────────────────────
 // Transition: case -> index
 // ─────────────────────────────
-async function caseToIndexTransition(data) {
-  // Pixelbump för att trigga addressbar på mobil
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-    window.scrollTo(0, window.scrollY - 1);
-  }
+let indexClone = null;
 
-  // Spara scrollposition
-  const savedCaseScrollY = window.scrollY || document.documentElement.scrollTop;
+async function caseToIndexTransition(data) {
+  // Scrolla till toppen för att trigga addressbar på mobil
+  window.scrollTo(0, 0);
 
   // Klona index-container och lägg bakom case
-  const indexClone = data.next.container.cloneNode(true);
+  indexClone = data.next.container.cloneNode(true);
   Object.assign(indexClone.style, {
     position: "fixed",
     top: 0,
@@ -137,9 +134,6 @@ async function caseToIndexTransition(data) {
   // Fade ut case
   await gsap.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
 
-  // Ta bort klonen
-  indexClone.remove();
-
   // Återställ stilar
   Object.assign(data.current.container.style, {
     position: "",
@@ -149,9 +143,6 @@ async function caseToIndexTransition(data) {
     position: "",
     zIndex: ""
   });
-
-  // Scrolla till toppen på index
-  window.scrollTo(0, 0);
 }
 
 // ─────────────────────────────
@@ -192,6 +183,13 @@ function initTransitions() {
           });
           window.scrollTo(0, 0);
         },
+        afterEnter() {
+          // Ta bort index-klonen när Barba är klar
+          if (indexClone) {
+            indexClone.remove();
+            indexClone = null;
+          }
+        }
       },
     ],
   });
