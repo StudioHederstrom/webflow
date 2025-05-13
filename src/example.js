@@ -57,7 +57,7 @@ async function indexToCaseTransition(data) {
     left: 0,
     width: "100vw",
     height: "100vh",
-    backgroundColor: "#000000",
+    backgroundColor: "#ffffff",
     opacity: 0,
     zIndex: 9990,
   });
