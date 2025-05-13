@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v3");
+console.log("Mitt script laddades! v4");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -128,6 +128,9 @@ async function caseToIndexTransition(data) {
     height: "100vh",
     zIndex: 1
   });
+
+  // Vänta två animation frames så att DOM hinner uppdateras
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
   // Fade ut case
   await gsap.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
