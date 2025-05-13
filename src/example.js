@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v2");
+console.log("Mitt script laddades! v3");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -102,7 +102,12 @@ async function indexToCaseTransition(data) {
 // ─────────────────────────────
 // Transition: case -> index
 // ─────────────────────────────
+let savedCaseScrollY = 0;
+
 async function caseToIndexTransition(data) {
+  // Spara scrollposition
+  savedCaseScrollY = window.scrollY || document.documentElement.scrollTop;
+
   // Gör index-sidan till ett lager under case
   Object.assign(data.next.container.style, {
     position: "fixed",
@@ -114,9 +119,10 @@ async function caseToIndexTransition(data) {
     opacity: 1,
     visibility: "visible"
   });
+  // Gör case fixed och behåll dess visuella position
   Object.assign(data.current.container.style, {
     position: "fixed",
-    top: 0,
+    top: `-${savedCaseScrollY}px`,
     left: 0,
     width: "100vw",
     height: "100vh",
@@ -145,6 +151,9 @@ async function caseToIndexTransition(data) {
     height: "",
     zIndex: ""
   });
+
+  // Scrolla till toppen på index
+  window.scrollTo(0, 0);
 }
 
 // ─────────────────────────────
