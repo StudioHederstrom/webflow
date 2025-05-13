@@ -103,10 +103,16 @@ async function indexToCaseTransition(data) {
 // Transition: case -> index
 // ─────────────────────────────
 async function caseToIndexTransition(data) {
-  // Enkel fade ut och in
+  // Gör index-sidan synlig och lägg bakom case
+  data.next.container.style.zIndex = 0;
+  data.next.container.style.position = "relative";
+  data.next.container.style.opacity = 1;
+  data.current.container.style.zIndex = 1;
+  data.current.container.style.position = "relative";
+
+  // Enkel fade ut på case
   const tl = gsap.timeline();
   tl.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
-  tl.fromTo(data.next.container, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 });
   await tl.then();
 }
 
