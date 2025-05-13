@@ -103,18 +103,48 @@ async function indexToCaseTransition(data) {
 // Transition: case -> index
 // ─────────────────────────────
 async function caseToIndexTransition(data) {
-  // Gör index-sidan synlig och lägg bakom case
-  data.next.container.style.zIndex = 0;
-  data.next.container.style.position = "relative";
-  data.next.container.style.opacity = 1;
-  data.next.container.style.visibility = "visible";
-  data.current.container.style.zIndex = 1;
-  data.current.container.style.position = "relative";
+  // Gör index-sidan till ett lager under case
+  Object.assign(data.next.container.style, {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    zIndex: 0,
+    opacity: 1,
+    visibility: "visible"
+  });
+  Object.assign(data.current.container.style, {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    zIndex: 1
+  });
 
-  // Enkel fade ut på case
-  const tl = gsap.timeline();
-  tl.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
-  await tl.then();
+  // Fade ut case
+  await gsap.to(data.current.container, { autoAlpha: 0, duration: 0.5 });
+
+  // Återställ positioner efter transitionen
+  Object.assign(data.next.container.style, {
+    position: "",
+    top: "",
+    left: "",
+    width: "",
+    height: "",
+    zIndex: "",
+    opacity: "",
+    visibility: ""
+  });
+  Object.assign(data.current.container.style, {
+    position: "",
+    top: "",
+    left: "",
+    width: "",
+    height: "",
+    zIndex: ""
+  });
 }
 
 // ─────────────────────────────
