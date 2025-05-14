@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v11");
+console.log("Mitt script laddades! v12");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -175,11 +175,6 @@ function initTransitions() {
           // Animera in case-cards från botten
           const cards = data.next.container.querySelectorAll('.case-card');
           gsap.to(cards, { y: 0, opacity: 1, duration: 0.7, stagger: 0.07 });
-          gsap.to(data.next.container, {
-            autoAlpha: 1,
-            duration: 0.3,
-            delay: 0,
-          });
           window.scrollTo(0, 0);
         },
       },
