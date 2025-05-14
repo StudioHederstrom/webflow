@@ -1,4 +1,4 @@
-console.log("Mitt script laddades! v10");
+console.log("Mitt script laddades! v11");
 
 // ─────────────────────────────
 // Hjälpfunktioner
@@ -119,6 +119,12 @@ async function caseToIndexTransition(data) {
   // 1b. Trigga addressbar (pixelbump)
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
     window.scrollTo(0, window.scrollY - 1);
+  }
+
+  // *** Flytta ner case-cards i index-container direkt ***
+  if (data.next && data.next.container) {
+    const cards = data.next.container.querySelectorAll('.case-card');
+    gsap.set(cards, { y: '100vh', opacity: 0 });
   }
 
   // 2. Fade ut case-sidan (ingen index bakom)
